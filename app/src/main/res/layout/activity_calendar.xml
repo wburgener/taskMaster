@@ -6,4 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".Calendar">
 
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="415dp"
+        android:layout_height="464dp"
+        android:paddingTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="174dp"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
