@@ -13,10 +13,11 @@
         android:layout_marginTop="88dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Welcome to taskMaster"
+        android:text="@string/welcome_to_taskmaster"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/button"
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:onClick="sendToMakeSchedule"
-        android:text="Make Schedule"
+        android:text="@string/make_schedule"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
@@ -35,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:onClick="sendToViewSchedule"
-        android:text="View Schedule"
+        android:text="@string/view_schedule"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
@@ -46,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:onClick="sendToCalendar"
-        android:text="Calendar"
+        android:text="@string/calendar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2" />
@@ -57,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:onClick="sendToSchedules"
-        android:text="Schedules"
+        android:text="@string/schedules"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
