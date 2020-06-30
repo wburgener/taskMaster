@@ -8,6 +8,7 @@
     <string name="view_schedule">View Schedule</string>
     <string name="calendar">Calendar</string>
     <string name="schedules">Schedules</string>
+    <string name="test">activityId</string>
     <string name="welcome_to_taskmaster">Welcome to taskMaster</string>
     <string-array name="critical_array">
         <item>Low</item>

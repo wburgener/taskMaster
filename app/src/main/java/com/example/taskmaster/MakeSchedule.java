@@ -6,20 +6,26 @@ import android.app.DatePickerDialog;
 import java.util.Calendar;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MakeSchedule extends AppCompatActivity {
 
-    private String activity;
-    private String critical;
+    TextView activityText;
+    Button b1;
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Activity = "activityKey";
+    SharedPreferences sharedpreferences;
+
     private TextView mDisplayDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private static final String TAG = "MakeSchedule";
@@ -28,13 +34,26 @@ public class MakeSchedule extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_schedule);
+
+        activityText = (TextView)findViewById(R.id.textView);
+        b1 = (Button)findViewById(R.id.button);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String activity  = activityText.getText().toString();
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                editor.putString(Activity, activity);
+
+                editor.commit();
+                Toast.makeText(MakeSchedule.this,"Data Saved",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mDisplayDate = (TextView) findViewById(R.id.Date);
-
-        // Populate the fields based on the Intent Extra's
-        Intent intent = getIntent();
-        critical = intent.getStringExtra(AppConfig.EXTRA_CRITICAL);
-        activity = intent.getStringExtra(AppConfig.EXTRA_ACTIVITY);
-
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,15 +82,5 @@ public class MakeSchedule extends AppCompatActivity {
             }
         };
 
-//        public void saveSchedule(View view) {
-//            // Get a shared preferences handle for the application
-//            SharedPreferences sharedPref = this.getSharedPreferences(
-//                    AppConfig.FILE_PREF, Context.MODE_PRIVATE);
-//            SharedPreferences.Editor editor = sharedPref.edit();
-//            // Set the configuration values and commit
-//            editor.putString(AppConfig.EXTRA_CRITICAL, critical);
-//            editor.putString(AppConfig.EXTRA_ACTIVITY, activity);
-//            editor.commit();
-//        }
     }
 }
