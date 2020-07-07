@@ -10,10 +10,16 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="16dp"
+        android:background="#FFFFFF"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/activity"
+        android:textAlignment="center"
         android:textSize="24sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toTopOf="@+id/editText2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,70 +27,75 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/how_critical"
+        android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginEnd="42dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/time"
+        android:textAlignment="center"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/Date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <EditText
         android:id="@+id/editText2"
         android:layout_width="153dp"
         android:layout_height="44dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/edit_activity"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="107dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="16dp"
         android:entries="@array/critical_array"
-        app:layout_constraintStart_toEndOf="@+id/editText2"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
         android:id="@+id/Date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="16dp"
         android:text="Date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="191dp"
+        tools:layout_editor_absoluteY="455dp" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="13dp"
         android:text="Save Activity"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/Date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
