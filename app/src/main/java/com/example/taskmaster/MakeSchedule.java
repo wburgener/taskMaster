@@ -46,7 +46,7 @@ public class MakeSchedule extends AppCompatActivity {
 
                 SharedPreferences.Editor editor = sharedpreferences.edit();
 
-                editor.putString(Activity, activity);
+                editor.putString("Activity", activity);
 
                 editor.commit();
                 Toast.makeText(MakeSchedule.this,"Data Saved",Toast.LENGTH_SHORT).show();
