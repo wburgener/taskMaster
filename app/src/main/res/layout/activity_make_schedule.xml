@@ -10,7 +10,6 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
         android:layout_marginBottom="16dp"
         android:background="#FFFFFF"
         android:fontFamily="sans-serif-condensed-medium"
@@ -20,6 +19,7 @@
         android:typeface="normal"
         app:layout_constraintBottom_toTopOf="@+id/editText2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,7 +83,8 @@
         android:layout_height="wrap_content"
         android:text="Date"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="191dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="455dp" />
 
     <Button
