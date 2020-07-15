@@ -1,13 +1,14 @@
 package com.example.taskmaster;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Schedule {
 
     public ArrayList<Todo> list;
     private String type;
-    public int startTime;
-    public int endTime;
+    public LocalTime startTime;
+    public LocalTime endTime;
 
     public ArrayList<Todo> getList()
     {
@@ -18,12 +19,12 @@ public class Schedule {
     {
         return type;
     }
-    public int getStartTime()
+    public LocalTime getStartTime()
     {
         return startTime;
     }
 
-    public int getEndTime()
+    public LocalTime getEndTime()
     {
         return endTime;
     }
