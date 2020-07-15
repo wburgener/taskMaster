@@ -3,7 +3,7 @@ package com.example.taskmaster;
 public class Todo {
 
     public String task;
-    private int length;
+    public long length;
     private int importance;
     public Boolean complete;
 
@@ -11,7 +11,7 @@ public class Todo {
         return task;
     }
 
-    public int getLength()
+    public long getLength()
     {
         return length;
     }
