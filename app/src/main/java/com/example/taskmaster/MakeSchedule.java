@@ -53,13 +53,14 @@ public class MakeSchedule extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //start ----PLEASE FEEL FREE TO CHANGE IT THE WAY YOU WANT....I JUST PUT THIS CODE TO MAKE IT WORK ON MY CALENDAR VIEW
                 int day = actDate.getDayOfMonth();
                 int month = actDate.getMonth();
                 int year =  actDate.getYear();
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(year, month, day);
-                SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd"); //PLEASE I NEED THE DATE IN THIS FORMAT IN THE SET<String>
 
                 String date = format1.format(calendar.getTime());
                 String activity  = activityText.getText().toString();
@@ -69,8 +70,10 @@ public class MakeSchedule extends AppCompatActivity {
                 Set<String> set = new HashSet<>();
                 set.add(activity);
                 set.add(date);
-                editor.putStringSet(activity, set);
 
+
+                editor.putStringSet(activity, set); //WESLY ...PLEASE MAKE SURE YOU USE PutStringSet ...so I can grab the Date in my calendar forloop
+                //END
 
                 editor.commit();
 
