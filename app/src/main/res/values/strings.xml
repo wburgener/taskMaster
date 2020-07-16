@@ -10,7 +10,7 @@
     <string name="schedules">Schedules</string>
     <string name="test">activityId</string>
     <string name="welcome_to_taskmaster">Welcome to taskMaster</string>
-    <string name="date03">Date</string>
+    <string name="date">Date</string>
     <string name="save_activity03">Save Activity</string>
     <string-array name="critical_array">
         <item>Low</item>
