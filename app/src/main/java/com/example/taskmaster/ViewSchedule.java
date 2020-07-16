@@ -5,9 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,11 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import java.io.File;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
+
+import java.util.Calendar;
 
 
 public class ViewSchedule extends AppCompatActivity {
@@ -30,18 +35,17 @@ public class ViewSchedule extends AppCompatActivity {
     Boolean complete;
     final Schedule schedule = new Schedule();
     private int notificationId = 1;
-    ArrayList<LocalTime> timeList = new ArrayList<LocalTime>();
-    LocalTime rightnow;
+    private String notifyId = "one";
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_schedule);
+        createNotificationChannel();
         display();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     void display()
     {
 
@@ -49,7 +53,6 @@ public class ViewSchedule extends AppCompatActivity {
         LinearLayout linearLayout = new LinearLayout(this);
         setContentView(linearLayout);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        Time();
         for (i = 0; i < howMany; i++)
         {
             TextView textView = new TextView(this);
@@ -75,25 +78,6 @@ public class ViewSchedule extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void Time()
-    {
-        LocalTime st = schedule.startTime;
-        LocalTime time = st;
-        int howMany = schedule.list.size();
-        for (i = 0; i < howMany; i++)
-        {
-            long offset = schedule.list.get(i).length;
-            time = st.plusHours(offset);
-            timeList.add(i, time);
-
-            if (rightnow.now() == time)
-            {
-
-            }
-        }
-
-    }
 
 
     public void Progress(View view)
@@ -103,12 +87,13 @@ public class ViewSchedule extends AppCompatActivity {
         threadProgress.start();
     }
 
-   /* public void Notify()
+   public void Notify()
     {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon()
-                .setContentTitle("Your Next Task")
-                .setContentText()
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, notifyId)
+                .setSmallIcon(R.drawable.taskmasterimage)
+                .setContentTitle("To Do Today")
+                .setContentText("Check what you've done so far")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManager notificationManger =
@@ -117,17 +102,54 @@ public class ViewSchedule extends AppCompatActivity {
 
     }
 
-    */
+    private void createNotificationChannel()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            CharSequence name = getString(R.string.NotifyChannel);
+            String description = getString(R.string.NotfyChannelD);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(notifyId, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
 
 
+   public void Alarm() {
+       SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+       if (!prefs.getBoolean("firstTime", false)) {
 
+           Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+           PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
+           AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+           Calendar calendar = Calendar.getInstance();
+           calendar.setTimeInMillis(System.currentTimeMillis());
+           calendar.set(Calendar.HOUR_OF_DAY, 12);
+           calendar.set(Calendar.MINUTE, 0);
+           calendar.set(Calendar.SECOND, 1);
 
+           manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
+           SharedPreferences.Editor editor = prefs.edit();
+           editor.putBoolean("firstTime", true);
+           editor.apply();
+       }
+   }
 
-
-
-
+    public class AlarmReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Notify();
+        }
+    }
 }
+
+
+
+
+
