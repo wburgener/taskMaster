@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 
+import com.google.gson.Gson;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +31,18 @@ public class MakeSchedule extends AppCompatActivity {
 
     TextView activityText;
     Button b1;
+    Button b2;
     DatePicker actDate;
+    int i = 0;
+    Spinner spinner = (Spinner) findViewById(R.id.spinner);
+    Schedule schedule;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES2 = "MyPrefsSchedule" ;
     public static final String Activity = "activityKey";
+    public static final String Schedule = "scheduleKey";
     SharedPreferences sharedpreferences;
+    SharedPreferences sharedPreferences2;
 
     private TextView mDisplayDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -45,10 +55,12 @@ public class MakeSchedule extends AppCompatActivity {
 
         activityText = (TextView)findViewById(R.id.editText2);
         b1 = (Button)findViewById(R.id.button);
+        b2 = (Button)findViewById(R.id.button5);
 
         actDate = (DatePicker) findViewById(R.id.datePicker1);    //added by me
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences2 = getPreferences(MODE_PRIVATE);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,12 +76,21 @@ public class MakeSchedule extends AppCompatActivity {
 
                 String date = format1.format(calendar.getTime());
                 String activity  = activityText.getText().toString();
+                String importance = spinner.getSelectedItem().toString();
+
+                //adding activity to schedule
+                schedule.list.get(i).setTask(activity);
+                schedule.list.get(i).setImportance(importance);
+                schedule.setDate(date);
+
+                i++;
 
                 SharedPreferences.Editor editor = sharedpreferences.edit();
 
                 Set<String> set = new HashSet<>();
                 set.add(activity);
                 set.add(date);
+                set.add(importance);
 
 
                 editor.putStringSet(activity, set); //WESLY ...PLEASE MAKE SURE YOU USE PutStringSet ...so I can grab the Date in my calendar forloop
@@ -78,6 +99,22 @@ public class MakeSchedule extends AppCompatActivity {
                 editor.commit();
 
                 Toast.makeText(MakeSchedule.this,"Data Saved",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SharedPreferences.Editor editor = sharedPreferences2.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(schedule);
+                editor.putString("schedule", json);
+                editor.commit();
+
+                schedule.list.clear();
+                i = 0;
+
             }
         });
 
