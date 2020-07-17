@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class MakeSchedule extends AppCompatActivity {
 
     TextView activityText;
@@ -118,8 +119,8 @@ public class MakeSchedule extends AppCompatActivity {
             }
         });
 
-        mDisplayDate = (TextView) findViewById(R.id.Date);
-        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+        //mDisplayDate = (TextView) findViewById(R.id.Date);
+       /* mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
@@ -146,6 +147,8 @@ public class MakeSchedule extends AppCompatActivity {
                 mDisplayDate.setText(date);
             }
         };
+
+        */
 
     }
 }

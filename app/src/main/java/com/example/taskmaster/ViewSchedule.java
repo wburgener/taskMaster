@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import com.google.gson.Gson;
 
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
@@ -22,9 +23,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class ViewSchedule extends AppCompatActivity {
@@ -33,20 +43,30 @@ public class ViewSchedule extends AppCompatActivity {
     int i = 0;
     String task;
     Boolean complete;
-    final Schedule schedule = new Schedule();
     private int notificationId = 1;
     private String notifyId = "one";
-
+    final SharedPreferences sched = getPreferences(MODE_PRIVATE);
+    Schedule schedule;
+    Date date;
+    private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_schedule);
-        createNotificationChannel();
-        display();
+        Gson gson = new Gson();
+        String json = sched.getString("schedule", "");
+        schedule = gson.fromJson(json, Schedule.class);
+        Date date1 = checkDate(schedule.date);
+        date = java.util.Calendar.getInstance().getTime();
+        if (date.equals(date1)) {
+
+            createNotificationChannel();
+            display(schedule);
+        }
     }
 
 
-    void display()
+    void display(final Schedule schedule)
     {
 
         int howMany = schedule.list.size();
@@ -78,6 +98,25 @@ public class ViewSchedule extends AppCompatActivity {
         }
     }
 
+    public Date checkDate(String date) {
+        String regex = "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$";
+        //Creating a pattern object
+        Pattern pattern = Pattern.compile(regex);
+        //Matching the compiled pattern in the String
+        Matcher matcher = pattern.matcher(date);
+        boolean bool = matcher.matches();
+        if (bool) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            Date dt = null;
+            try {
+                dt = df.parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return dt;
+        }
+        else return null;
+    }
 
 
     public void Progress(View view)
@@ -117,7 +156,7 @@ public class ViewSchedule extends AppCompatActivity {
     }
 
 
-
+//alarm for notifications
    public void Alarm() {
        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
        if (!prefs.getBoolean("firstTime", false)) {
@@ -141,11 +180,51 @@ public class ViewSchedule extends AppCompatActivity {
        }
    }
 
+   //alarm for destroying activity at midnight
+    public void Alarm1() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean("firstTime", false)) {
+
+            Intent alarmIntent = new Intent(this, AlarmReceiver1.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 1);
+
+            manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("firstTime", true);
+            editor.apply();
+        }
+    }
     public class AlarmReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             Notify();
         }
+    }
+
+    public class AlarmReceiver1 extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 }
 

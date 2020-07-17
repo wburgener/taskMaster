@@ -17,4 +17,8 @@
         <item>Moderate</item>
         <item>High</item>
     </string-array>
+    <string name="NotifyChannel">NotifyChannel</string>
+    <string name="NotfyChannelD">channel for notifications</string>
+    <string name="channel_id">one</string>
+    <string name="save_schedule">Save Schedule</string>
 </resources>

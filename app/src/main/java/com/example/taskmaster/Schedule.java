@@ -6,26 +6,20 @@ import java.util.ArrayList;
 public class Schedule {
 
     public ArrayList<Todo> list;
-    private String type;
-    public LocalTime startTime;
-    public LocalTime endTime;
+    public String date;
 
-    public ArrayList<Todo> getList()
-    {
+    public ArrayList<Todo> getList() {
         return list;
     }
 
-    public String getType()
-    {
-        return type;
-    }
-    public LocalTime getStartTime()
-    {
-        return startTime;
+    public String getDate() {
+        return date;
     }
 
-    public LocalTime getEndTime()
+    public void setDate(String newDate)
     {
-        return endTime;
+        this.date = newDate;
     }
+
 }
+
