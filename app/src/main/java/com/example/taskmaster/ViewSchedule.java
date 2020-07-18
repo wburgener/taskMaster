@@ -41,8 +41,9 @@ public class ViewSchedule extends AppCompatActivity {
 
     View view;
     int i;
+    int howMany;
     String task;
-    Boolean complete;
+    int complete;
     private int notificationId;
     private String notifyId;
     SharedPreferences sched;
@@ -57,8 +58,10 @@ public class ViewSchedule extends AppCompatActivity {
         dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
         notificationId = 1;
         i = 0;
+        complete = 0;
         notifyId = "one";
         sched = getSharedPreferences(MyPREFERENCES2, MODE_PRIVATE);
+       //get our gson from make schedule
         Gson gson = new Gson();
         String json = sched.getString("schedule", "");
         schedule = gson.fromJson(json, Schedule.class);
@@ -73,10 +76,11 @@ public class ViewSchedule extends AppCompatActivity {
     void display(final Schedule schedule)
     {
 
-        int howMany = schedule.list.size();
+        howMany = schedule.list.size();
         LinearLayout linearLayout = new LinearLayout(this);
         setContentView(linearLayout);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+        //displaying the items and the complete buttons
         for (i = 0; i < howMany; i++)
         {
             TextView textView = new TextView(this);
@@ -84,24 +88,27 @@ public class ViewSchedule extends AppCompatActivity {
             textView.setText(task);
             textView.setId(i);
             linearLayout.addView(textView);
+
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            complete = schedule.list.get(i).complete;
-            Button button = new Button(this);
-            ButtonFactory bfactory = new ButtonFactory();
-            button = bfactory.getButton(i, button);
+            final Button button = new Button(this);
+            button.setText("Complete");
+            button.setId(i);
             linearLayout.addView(button);
+
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
+                //mark the item as true and shows percent
                 public void onClick(View v) {
                     Toast.makeText(getApplicationContext(), "Item Complete. You Did It!", Toast.LENGTH_LONG).show();
-                    schedule.list.get(i).complete = true;
-                    Progress(view);
+                    schedule.list.get(button.getId()).complete = true;
+                    complete++;
+                    Progress(view, schedule, complete, howMany);
                 }
             });
             linearLayout.setOrientation(LinearLayout.VERTICAL);
         }
     }
-
+//Makes sure we are dealing with the day in question
     public Date checkDate(String date) {
         String regex = "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$";
         //Creating a pattern object
@@ -122,14 +129,17 @@ public class ViewSchedule extends AppCompatActivity {
         else return null;
     }
 
-
-    public void Progress(View view)
+//progress runnable, takes the amount completed and how many items
+    public void Progress(View view, Schedule schedule, int complete, int howMany)
     {
-        ProgressBar p = new ProgressBar(schedule, this);
+        TextView textView1 = (TextView) findViewById(R.id.percent);
+        ProgressBar p = new ProgressBar(schedule, complete, howMany, textView1, this);
+
         Thread threadProgress = new Thread (p, "progress bar");
         threadProgress.start();
     }
 
+    //our notification codes
    public void Notify()
     {
 
@@ -145,6 +155,7 @@ public class ViewSchedule extends AppCompatActivity {
 
     }
 
+    //notification channel
     private void createNotificationChannel()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -221,6 +232,7 @@ public class ViewSchedule extends AppCompatActivity {
         }
     }
 
+    //make sure we're saving the activity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

@@ -110,7 +110,7 @@ public class MakeSchedule extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //saving the schedule as a whole
                 SharedPreferences.Editor editor = sharedPreferences2.edit();
                 Gson gson = new Gson();
                 String json = gson.toJson(schedule);
