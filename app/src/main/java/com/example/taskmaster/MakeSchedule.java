@@ -35,7 +35,7 @@ public class MakeSchedule extends AppCompatActivity {
     Button b2;
     DatePicker actDate;
     int i = 0;
-    Spinner spinner = (Spinner) findViewById(R.id.spinner);
+    Spinner spinner;
     Schedule schedule;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -57,11 +57,13 @@ public class MakeSchedule extends AppCompatActivity {
         activityText = (TextView)findViewById(R.id.editText2);
         b1 = (Button)findViewById(R.id.button);
         b2 = (Button)findViewById(R.id.button5);
+        spinner = (Spinner) findViewById(R.id.spinner);
 
         actDate = (DatePicker) findViewById(R.id.datePicker1);    //added by me
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferences2 = getPreferences(MODE_PRIVATE);
+        schedule = new Schedule();
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +81,9 @@ public class MakeSchedule extends AppCompatActivity {
                 String activity  = activityText.getText().toString();
                 String importance = spinner.getSelectedItem().toString();
 
+                Todo todo = new Todo();
                 //adding activity to schedule
+                schedule.list.add(todo);
                 schedule.list.get(i).setTask(activity);
                 schedule.list.get(i).setImportance(importance);
                 schedule.setDate(date);
