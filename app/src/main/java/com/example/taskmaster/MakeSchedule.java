@@ -62,7 +62,7 @@ public class MakeSchedule extends AppCompatActivity {
         actDate = (DatePicker) findViewById(R.id.datePicker1);    //added by me
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        sharedPreferences2 = getPreferences(MODE_PRIVATE);
+        sharedPreferences2 = getSharedPreferences(MyPREFERENCES2, Context.MODE_PRIVATE);
         schedule = new Schedule();
 
         b1.setOnClickListener(new View.OnClickListener() {

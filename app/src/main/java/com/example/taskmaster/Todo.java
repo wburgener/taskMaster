@@ -2,9 +2,9 @@ package com.example.taskmaster;
 
 public class Todo {
 
-    public String task;
-    public long length;
-    private String importance;
+    public String task = null;
+
+    private String importance = null;
 
     public Boolean complete = false;
 

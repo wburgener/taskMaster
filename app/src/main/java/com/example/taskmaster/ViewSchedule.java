@@ -40,30 +40,34 @@ import java.util.regex.Pattern;
 public class ViewSchedule extends AppCompatActivity {
 
     View view;
-    int i = 0;
+    int i;
     String task;
     Boolean complete;
-    private int notificationId = 1;
-    private String notifyId = "one";
-    final SharedPreferences sched = getPreferences(MODE_PRIVATE);
+    private int notificationId;
+    private String notifyId;
+    SharedPreferences sched;
     Schedule schedule;
     Date date;
-    private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
+    public static final String MyPREFERENCES2 = "MyPrefsSchedule" ;
+    private SimpleDateFormat dateFormatMonth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_schedule);
+        dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
+        notificationId = 1;
+        i = 0;
+        notifyId = "one";
+        sched = getSharedPreferences(MyPREFERENCES2, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sched.getString("schedule", "");
         schedule = gson.fromJson(json, Schedule.class);
-        Date date1 = checkDate(schedule.date);
+        Date date1 = checkDate(schedule.getDate());
         date = java.util.Calendar.getInstance().getTime();
-        if (date.equals(date1)) {
-
-            createNotificationChannel();
-            display(schedule);
+        createNotificationChannel();
+        display(schedule);
         }
-    }
+
 
 
     void display(final Schedule schedule)
@@ -77,8 +81,8 @@ public class ViewSchedule extends AppCompatActivity {
         {
             TextView textView = new TextView(this);
             task = schedule.list.get(i).task;
-            TextViewFactory tvfactory = new TextViewFactory();
-            textView = tvfactory.getTextView(i, task, textView);
+            textView.setText(task);
+            textView.setId(i);
             linearLayout.addView(textView);
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
             complete = schedule.list.get(i).complete;

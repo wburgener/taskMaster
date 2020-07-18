@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class Schedule {
 
-    public ArrayList<Todo> list;
-    public String date;
+    public ArrayList<Todo> list = new ArrayList<Todo>(15);
+    public String date = new String();
 
     public ArrayList<Todo> getList() {
         return list;
